@@ -65,6 +65,7 @@ void *list_remove_index(list_t *list, size_t index) {
   if (current == NULL) {
     return NULL;
   }
+  void *data = current->data;
   if (list->size == 1) {
     list->head = NULL;
   }
@@ -75,10 +76,8 @@ void *list_remove_index(list_t *list, size_t index) {
     current->prev->next = current->next;
     current->next->prev = current->prev;
   }
-  if (list->destroy_data != NULL) {
-    list->destroy_data(current->data);
-  }
   free(current);
+  return data;
 }
 
 int list_indexof(list_t *list, void *data) {
