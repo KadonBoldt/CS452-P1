@@ -9,8 +9,16 @@ list_t *list_init(void (*destroy_data)(void *), int (*compare_to)(const void *, 
   }
   list->destroy_data = destroy_data;
   list->compare_to = compare_to;
-  list->head = NULL;
   list->size = 0;
+  node_t *node = (node_t *)malloc(sizeof(node_t));
+  if (node == NULL) {
+    free(list);
+    return NULL;
+  }
+  node->data = NULL;
+  node->next = node;
+  node->prev = node;
+  list->head = node;
   return list;
 }
 
