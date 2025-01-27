@@ -244,6 +244,34 @@ void test_notInList(void)
   free(data);
 }
 
+void test_add_null_data(void) {
+  TEST_ASSERT_NOT_NULL(lst_);
+  list_add(lst_, NULL);
+  TEST_ASSERT_TRUE(lst_->size == 1);
+  TEST_ASSERT_NULL(lst_->head->next->data);
+}
+
+void test_remove_from_empty_list(void) {
+  TEST_ASSERT_NOT_NULL(lst_);
+  void *removed = list_remove_index(lst_, 0);
+  TEST_ASSERT_NULL(removed);
+  TEST_ASSERT_TRUE(lst_->size == 0);
+}
+
+void test_find_index_of_null(void) {
+  populate_list();
+  int index = list_indexof(lst_, NULL);
+  TEST_ASSERT_EQUAL_INT(-1, index);
+}
+
+void test_init_null_callbacks(void) {
+  list_t *list = list_init(NULL, NULL);
+  TEST_ASSERT_NOT_NULL(list);
+  TEST_ASSERT_NULL(list->destroy_data);
+  TEST_ASSERT_NULL(list->compare_to);
+  list_destroy(&list);
+}
+
 int main(void) {
   UNITY_BEGIN();
   RUN_TEST(test_create_destroy);
@@ -257,5 +285,9 @@ int main(void) {
   RUN_TEST(test_indexOf0);
   RUN_TEST(test_indexOf3);
   RUN_TEST(test_notInList);
+  RUN_TEST(test_add_null_data);
+  RUN_TEST(test_remove_from_empty_list);
+  RUN_TEST(test_find_index_of_null);
+  RUN_TEST(test_init_null_callbacks);
   return UNITY_END();
 }
