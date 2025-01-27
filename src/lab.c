@@ -27,16 +27,16 @@ void list_destroy(list_t **list) {
     return;
   }
   node_t *current = (*list)->head;
-  while (current != NULL) {
+  size_t i = 0;
+  while (i <= (*list)->size) {
     node_t *next = current->next;
-    if ((*list)->destroy_data != NULL) {
+    if ((*list)->destroy_data != NULL && current->data != NULL) {
       (*list)->destroy_data(current->data);
     }
     free(current);
     current = next;
   }
   free(*list);
-  *list = NULL;
 }
 
 list_t *list_add(list_t *list, void *data) {
@@ -48,42 +48,28 @@ list_t *list_add(list_t *list, void *data) {
     return NULL;
   }
   node->data = data;
-  node->next = list->head;
-  node->prev = NULL;
-  if (list->head != NULL) {
-    node->prev = list->head->prev;
-    node->prev->next = node;
-    list->head->prev = node;
-  }
-  list->head = node;
+  node->next = list->head->next;
+  node->prev = list->head;
+  node->next->prev = node;
+  list->head->next = node;
   list->size++;
   return list;
 }
 
 void *list_remove_index(list_t *list, size_t index) {
-  if (list == NULL || index >= list->size) {
+  if (list == NULL || list->size < 1 || index > list->size || index <= 0) {
     return NULL;
   }
-  node_t *current = list->head;
-  size_t i = 0;
-  while (i < index && current != NULL) {
+  node_t *current = list->head->next;
+  size_t i = 1;
+  while (i < index) {
     current = current->next;
     i++;
   }
-  if (current == NULL) {
-    return NULL;
-  }
+  list->size--;
   void *data = current->data;
-  if (list->size == 1) {
-    list->head = NULL;
-  }
-  else {
-    if (i == 0) {
-      list->head = current->next;
-    }
-    current->prev->next = current->next;
-    current->next->prev = current->prev;
-  }
+  current->prev->next = current->next;
+  current->next->prev = current->prev;
   free(current);
   return data;
 }
@@ -92,9 +78,9 @@ int list_indexof(list_t *list, void *data) {
   if (list == NULL || data == NULL || list->compare_to == NULL) {
     return -1;
   }
-  node_t *current = list->head;
-  size_t i = 0;
-  while (i < list->size && current != NULL) {
+  node_t *current = list->head->next;
+  size_t i = 1;
+  while (i <= list->size) {
     if (list->compare_to(current->data, data) == 0) {
       return i;
     }
