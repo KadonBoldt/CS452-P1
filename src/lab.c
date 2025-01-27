@@ -19,8 +19,8 @@ void list_destroy(list_t **list) {
     return;
   }
   node_t *current = (*list)->head;
-  while (node != NULL) {
-    node_t *next = node->next;
+  while (current != NULL) {
+    node_t *next = current->next;
     if ((*list)->destroy_data != NULL) {
       (*list)->destroy_data(current->data);
     }
