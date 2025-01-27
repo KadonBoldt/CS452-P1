@@ -247,8 +247,8 @@ void test_notInList(void)
 void test_add_null_data(void) {
   TEST_ASSERT_NOT_NULL(lst_);
   list_add(lst_, NULL);
-  TEST_ASSERT_TRUE(lst_->size == 1);
-  TEST_ASSERT_NULL(lst_->head->next->data);
+  TEST_ASSERT_TRUE(lst_->size == 0);
+  TEST_ASSERT_TRUE(lst_->head == lst_->head->next);
 }
 
 void test_remove_from_empty_list(void) {
@@ -264,11 +264,15 @@ void test_find_index_of_null(void) {
   TEST_ASSERT_EQUAL_INT(-1, index);
 }
 
-void test_init_null_callbacks(void) {
-  list_t *list = list_init(NULL, NULL);
-  TEST_ASSERT_NOT_NULL(list);
-  TEST_ASSERT_NULL(list->destroy_data);
-  TEST_ASSERT_NULL(list->compare_to);
+void test_init_null_destroy_data(void) {
+  list_t *list = list_init(NULL, compare_to);
+  TEST_ASSERT_NULL(list);
+  list_destroy(&list);
+}
+
+void test_init_null_compare_to(void) {
+  list_t *list = list_init(destroy_data, NULL);
+  TEST_ASSERT_NULL(list);
   list_destroy(&list);
 }
 
@@ -288,6 +292,7 @@ int main(void) {
   RUN_TEST(test_add_null_data);
   RUN_TEST(test_remove_from_empty_list);
   RUN_TEST(test_find_index_of_null);
-  RUN_TEST(test_init_null_callbacks);
+  RUN_TEST(test_init_null_destroy_data);
+  RUN_TEST(test_init_null_compare_to);
   return UNITY_END();
 }

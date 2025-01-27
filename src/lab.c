@@ -3,6 +3,9 @@
 #include "lab.h"
 
 list_t *list_init(void (*destroy_data)(void *), int (*compare_to)(const void *, const void *)) {
+  if (!destroy_data || !compare_to) {
+    return NULL;
+  }
   list_t *list = (list_t *)malloc(sizeof(list_t));
   if (!list) {
     return NULL;
