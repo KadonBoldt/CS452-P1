@@ -62,7 +62,6 @@ void test_create_destroy(void)
 
   list_destroy(&lst);
   TEST_ASSERT_TRUE(lst == NULL);
-  printf("test_create_destroy PASSED\n");
 }
 
 
@@ -80,7 +79,6 @@ void test_add1(void)
   //Check to make sure our data actually made it into the node
   TEST_ASSERT_TRUE(*((int *)lst_->head->next->data) == 1);
   TEST_ASSERT_TRUE(*((int *)lst_->head->prev->data) == 1);
-  printf("test_add1 PASSED\n");
 }
 
 void test_add2(void)
@@ -100,7 +98,6 @@ void test_add2(void)
   //Check to make sure our next and prev have the correct data
   TEST_ASSERT_TRUE(*((int *)lst_->head->next->data) == 2);
   TEST_ASSERT_TRUE(*((int *)lst_->head->prev->data) == 1);
-  printf("test_add2 PASSED\n");
 }
 
 
@@ -125,7 +122,6 @@ void test_removeIndex0(void)
       TEST_ASSERT_TRUE(*((int *)curr->data) == i);
       curr = curr->prev;
     }
-  printf("test_removeIndex0 PASSED\n");
 }
 
 void test_removeIndex3(void)
@@ -153,7 +149,6 @@ void test_removeIndex3(void)
       TEST_ASSERT_TRUE(*((int *)curr->data) == i + 1);
       curr = curr->prev;
     }
-  printf("test_removeIndex3 PASSED\n");
 }
 
 
@@ -178,7 +173,6 @@ void test_removeIndex4(void)
       TEST_ASSERT_TRUE(*((int *)curr->data) == i + 1);
       curr = curr->prev;
     }
-  printf("test_removeIndex4 PASSED\n");
 }
 
 
@@ -202,7 +196,6 @@ void test_invaidIndex(void)
       TEST_ASSERT_TRUE(*((int *)curr->data) == i);
       curr = curr->prev;
     }
-  printf("test_invalidIndex PASSED\n");
 }
 
 void test_removeAll(void)
@@ -221,7 +214,6 @@ void test_removeAll(void)
   TEST_ASSERT_FALSE(lst_->head->prev == NULL);
   TEST_ASSERT_TRUE(lst_->head->next == lst_->head->prev);
   TEST_ASSERT_TRUE(lst_->size == 0);
-  printf("test_removeAll PASSED\n");
 }
 
 void test_indexOf0(void)
@@ -231,7 +223,6 @@ void test_indexOf0(void)
   void *data = lst_->head->next->data;
   size_t idx = list_indexof(lst_, data);
   TEST_ASSERT_TRUE(idx == 0);
-  printf("test_indexOf0 PASSED\n");
 }
 
 void test_indexOf3(void)
@@ -242,7 +233,6 @@ void test_indexOf3(void)
   size_t idx = list_indexof(lst_, data);
   TEST_ASSERT_TRUE(idx == 3);
   free(data);
-  printf("test_indexOf3 PASSED\n");
 }
 
 void test_notInList(void)
@@ -252,7 +242,6 @@ void test_notInList(void)
   int idx = list_indexof(lst_, data);
   TEST_ASSERT_EQUAL_INT64(-1, idx);
   free(data);
-  printf("test_notInList PASSED\n");
 }
 
 int main(void) {
