@@ -1,4 +1,4 @@
-# Makefile Project Template
+# P1: Circular Linked List
 
 Steps to configure, build, run, and test the project.
 
